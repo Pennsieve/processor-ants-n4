@@ -1,0 +1,72 @@
+# yaml-language-server: $schema=https://schemas.pennsieve.io/app-manifest/v1.json
+schemaVersion: "1.0"
+application:
+  name: ANTs N4 bias field correction
+  description: >-
+    Corrects the low-frequency intensity non-uniformity (bias field) of T1-weighted
+    MRI with N4BiasFieldCorrection from ANTs 2.6.5 (Tustison et al. 2010, IEEE TMI
+    29:1310; ANTsX: Tustison et al. 2021, Sci Rep 11:9068). Takes one or more T1w
+    NIfTI images (typically the skull-stripped <sub>_desc-brain_T1w.nii.gz from
+    SynthStrip) and, optionally, a brain mask per subject that restricts the fit;
+    writes the corrected image and the estimated bias field for each subject.
+  type: processor
+  tags: [neuroimaging, mri, nifti, ants, n4]
+runtime:
+  cpu: 2048
+  memory: 8192
+  computeTypes: [standard]
+  timeoutSeconds: 1800
+parameters:
+  - name: SHRINK_FACTOR
+    type: integer
+    description: >-
+      Downsampling factor for the bias field estimate (N4 -s). 4 is fast and
+      adequate for 1 mm T1w; 2 is slower and finer.
+    defaultValue: 4
+  - name: BSPLINE_FITTING_MM
+    type: integer
+    description: >-
+      Spacing of the B-spline mesh in mm (N4 -b). Larger values give a smoother
+      bias field; 180 mm is the usual choice for whole-head T1w.
+    defaultValue: 180
+  - name: ITERATIONS
+    type: string
+    description: >-
+      Maximum iterations per resolution level, from coarse to fine, as an
+      'x'-separated list (N4 -c).
+    defaultValue: "50x50x50x50"
+  - name: CONVERGENCE_THRESHOLD
+    type: number
+    description: >-
+      Convergence threshold on the change of the bias field between iterations
+      (N4 -c); 0.0 runs every iteration.
+    defaultValue: 0.0
+  - name: THREADS
+    type: integer
+    description: Number of ITK threads (ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS).
+    defaultValue: 4
+inputs:
+  - name: image
+    description: >-
+      T1-weighted NIfTI images to correct, named <sub>[_<entities>]_T1w.nii.gz,
+      e.g. sub-01_desc-brain_T1w.nii.gz from the SynthStrip step. One per subject.
+    mediaTypes: [application/x-nifti-gz, application/x-nifti]
+    placement: subfolder
+    required: true
+  - name: mask
+    description: >-
+      Optional brain masks, named <sub>[_<entities>]_mask.nii.gz (e.g.
+      sub-01_desc-brain_mask.nii.gz), matched to the images by subject label.
+      When present, N4 only fits the bias field inside the mask.
+    mediaTypes: [application/x-nifti-gz, application/x-nifti]
+    placement: subfolder
+    required: false
+outputs:
+  - name: corrected
+    description: >-
+      Bias-corrected images, <sub>_desc-n4_T1w.nii.gz, plus provenance.json
+      (parameters, commands and the bias field range per subject).
+    mediaTypes: [application/x-nifti-gz, application/json]
+  - name: biasfield
+    description: The estimated multiplicative bias field per subject, <sub>_desc-biasfield_T1w.nii.gz.
+    mediaTypes: [application/x-nifti-gz]
