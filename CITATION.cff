@@ -1,0 +1,79 @@
+cff-version: "1.2.0"
+message: If you use this app, please cite it and the works it builds on, listed under references.
+type: software
+title: ANTs N4 bias field correction
+abstract: Corrects the low-frequency intensity non-uniformity (bias field) of T1-weighted MRI with N4BiasFieldCorrection
+  from ANTs, optionally restricted to a brain mask. Writes the corrected image and the estimated bias
+  field per subject.
+authors:
+- name: Pennsieve (University of Pennsylvania)
+repository-code: https://github.com/pennsieve-apps/processor-ants-n4
+license: Apache-2.0
+keywords:
+- neuroimaging
+- mri
+- nifti
+- ants
+- n4
+references:
+- type: article
+  title: 'N4ITK: Improved N3 Bias Correction'
+  authors:
+  - family-names: Tustison
+    given-names: Nicholas J
+  - family-names: Avants
+    given-names: Brian B
+  - family-names: Cook
+    given-names: Philip A
+  - family-names: Zheng
+    given-names: Yuanjie
+  - family-names: Egan
+    given-names: Alexander
+  - family-names: Yushkevich
+    given-names: Paul A
+  - family-names: Gee
+    given-names: James C
+  year: 2010
+  journal: IEEE Transactions on Medical Imaging
+  volume: 29
+  issue: '6'
+  start: '1310'
+  end: '1320'
+  doi: 10.1109/TMI.2010.2046908
+- type: article
+  title: The ANTsX ecosystem for quantitative biological and medical imaging
+  authors:
+  - family-names: Tustison
+    given-names: Nicholas J.
+  - family-names: Cook
+    given-names: Philip A.
+  - family-names: Holbrook
+    given-names: Andrew J.
+  - family-names: Johnson
+    given-names: Hans J.
+  - family-names: Muschelli
+    given-names: John
+  - family-names: Devenyi
+    given-names: Gabriel A.
+  - family-names: Duda
+    given-names: Jeffrey T.
+  - family-names: Das
+    given-names: Sandhitsu R.
+  - family-names: Cullen
+    given-names: Nicholas C.
+  - family-names: Gillen
+    given-names: Daniel L.
+  - family-names: Yassa
+    given-names: Michael A.
+  - family-names: Stone
+    given-names: James R.
+  - family-names: Gee
+    given-names: James C.
+  - family-names: Avants
+    given-names: Brian B.
+  year: 2021
+  journal: Scientific Reports
+  volume: 11
+  issue: '1'
+  start: '9068'
+  doi: 10.1038/s41598-021-87564-6
